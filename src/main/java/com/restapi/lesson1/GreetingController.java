@@ -3,6 +3,7 @@ import com.restapi.lesson1.domain.Message;
 import com.restapi.lesson1.repos.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,16 +11,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
-
+@ActiveProfiles("test")
 @Controller
 public class GreetingController {
     @Autowired
     private MessageRepository messageRepository;
 
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Map<String,Object> model){
-        model.put("name", name);
-        return "greeting";
+    @GetMapping("/home")
+    public String home(Map<String, Object> model){
+        return "home";
     }
 
     @GetMapping
