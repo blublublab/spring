@@ -1,26 +1,25 @@
 package com.restapi.lesson1;
 import com.restapi.lesson1.domain.Message;
+import com.restapi.lesson1.domain.User;
 import com.restapi.lesson1.repos.MessageRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.restapi.lesson1.repos.UserRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
-@ActiveProfiles("test")
 @Controller
-public class GreetingController {
-    @Autowired
-    private MessageRepository messageRepository;
+public class MainController {
 
-    @GetMapping("/home")
-    public String home(Map<String, Object> model){
-        return "home";
+    private MessageRepository messageRepository;
+    private UserRepository userRepository;
+   // Wire
+    public MainController(MessageRepository messageRepository) {
+        this.messageRepository = messageRepository;
     }
+
 
     @GetMapping
     public String main(Map<String, Object> model){
@@ -30,8 +29,8 @@ public class GreetingController {
 
 
     @PostMapping
-    public String add(@RequestParam String text, @RequestParam String tag , Map<String, Object> model){
-        Message message = new Message(text, tag);
+    public String add(@RequestParam String text, @RequestParam String tag  , @RequestParam User user,  Map<String, Object> model){
+        Message message = new Message(text, tag, user);
         messageRepository.save(message);
         model.put("messages", messageRepository.findAll());
         return "main";

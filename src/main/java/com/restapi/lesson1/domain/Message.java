@@ -1,15 +1,17 @@
 package com.restapi.lesson1.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Message {
+
     @Id
     @GeneratedValue(strategy =  GenerationType.AUTO)
     private Integer id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     private String text;
     private String tag;
@@ -22,8 +24,8 @@ public class Message {
         this.id = id;
     }
 
-    public Message(String text, String tag) {
-
+    public Message(String text, String tag, User user) {
+        this.user = user;
         this.text = text;
         this.tag = tag;
     }
